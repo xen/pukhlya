@@ -6,14 +6,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm.properties import ColumnProperty
 from sqlalchemy.sql.schema import Column
 from sqlalchemy_utils import types
-from wtforms import (
-    Form,
-    BooleanField,
-    Field,
-    FloatField,
-    PasswordField,
-    TextAreaField
-)
+from wtforms import Form, BooleanField, Field, FloatField, PasswordField, TextAreaField
 from wtforms.widgets import CheckboxInput, TextArea
 from wtforms_components import (
     ColorField,
@@ -29,7 +22,7 @@ from wtforms_components import (
     IntIntervalField,
     SelectField,
     StringField,
-    TimeField
+    TimeField,
 )
 from wtforms_components.widgets import (
     ColorInput,
@@ -39,53 +32,57 @@ from wtforms_components.widgets import (
     EmailInput,
     NumberInput,
     TextInput,
-    TimeInput
+    TimeInput,
 )
 
 
-TYPE_MAP = OrderedDict((
-    (sa.types.UnicodeText, TextAreaField),
-    (sa.types.BigInteger, IntegerField),
-    (sa.types.SmallInteger, IntegerField),
-    (sa.types.Text, TextAreaField),
-    (sa.types.Boolean, BooleanField),
-    (sa.types.Date, DateField),
-    (sa.types.DateTime, DateTimeField),
-    (sa.types.Enum, SelectField),
-    (sa.types.Float, FloatField),
-    (sa.types.Integer, IntegerField),
-    (sa.types.Numeric, DecimalField),
-    (sa.types.Unicode, StringField),
-    (sa.types.String, StringField),
-    (sa.types.Time, TimeField),
-    (types.ArrowType, DateTimeField),
-    (types.ChoiceType, SelectField),
-    (types.ColorType, ColorField),
-    (types.DateRangeType, DateIntervalField),
-    (types.DateTimeRangeType, DateTimeIntervalField),
-    (types.EmailType, EmailField),
-    (types.IntRangeType, IntIntervalField),
-    (types.NumericRangeType, DecimalIntervalField),
-    (types.PasswordType, PasswordField),
-    (types.ScalarListType, StringField),
-    (types.URLType, StringField),
-    (types.UUIDType, StringField),
-))
+TYPE_MAP = OrderedDict(
+    (
+        (sa.types.UnicodeText, TextAreaField),
+        (sa.types.BigInteger, IntegerField),
+        (sa.types.SmallInteger, IntegerField),
+        (sa.types.Text, TextAreaField),
+        (sa.types.Boolean, BooleanField),
+        (sa.types.Date, DateField),
+        (sa.types.DateTime, DateTimeField),
+        (sa.types.Enum, SelectField),
+        (sa.types.Float, FloatField),
+        (sa.types.Integer, IntegerField),
+        (sa.types.Numeric, DecimalField),
+        (sa.types.Unicode, StringField),
+        (sa.types.String, StringField),
+        (sa.types.Time, TimeField),
+        (types.ArrowType, DateTimeField),
+        (types.ChoiceType, SelectField),
+        (types.ColorType, ColorField),
+        (types.DateRangeType, DateIntervalField),
+        (types.DateTimeRangeType, DateTimeIntervalField),
+        (types.EmailType, EmailField),
+        (types.IntRangeType, IntIntervalField),
+        (types.NumericRangeType, DecimalIntervalField),
+        (types.PasswordType, PasswordField),
+        (types.ScalarListType, StringField),
+        (types.URLType, StringField),
+        (types.UUIDType, StringField),
+    )
+)
 
-WIDGET_MAP = OrderedDict((
-    (BooleanField, CheckboxInput),
-    (ColorField, ColorInput),
-    (DateField, DateInput),
-    (DateTimeField, DateTimeInput),
-    (DateTimeLocalField, DateTimeLocalInput),
-    (DecimalField, NumberInput),
-    (EmailField, EmailInput),
-    (FloatField, NumberInput),
-    (IntegerField, NumberInput),
-    (TextAreaField, TextArea),
-    (TimeField, TimeInput),
-    (StringField, TextInput)
-))
+WIDGET_MAP = OrderedDict(
+    (
+        (BooleanField, CheckboxInput),
+        (ColorField, ColorInput),
+        (DateField, DateInput),
+        (DateTimeField, DateTimeInput),
+        (DateTimeLocalField, DateTimeLocalInput),
+        (DecimalField, NumberInput),
+        (EmailField, EmailInput),
+        (FloatField, NumberInput),
+        (IntegerField, NumberInput),
+        (TextAreaField, TextArea),
+        (TimeField, TimeInput),
+        (StringField, TextInput),
+    )
+)
 
 
 def generate_form(model, only=None, meta=None):
@@ -98,32 +95,31 @@ def generate_form(model, only=None, meta=None):
     """
     fields = OrderedDict()
     if meta:
-        fields['Meta'] = meta
+        fields["Meta"] = meta
 
-    for name, column in model.__dict__['columns'].items():
+    for name, column in model.__dict__["columns"].items():
         if only:
             if not name in only:
                 continue
         if not isinstance(column, Column):
             continue
         fields[name] = TYPE_MAP[column.type.__class__](
-            name, render_kw={'placeholder': name}
+            name, render_kw={"placeholder": name}
         )
-    form = type(
-        'Add{}Form'.format(model.name.capitalize()),
-        (Form,),
-        fields
-    )
+    form = type("Add{}Form".format(model.name.capitalize()), (Form,), fields)
     return form
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import sqlalchemy as sa
+
     meta = sa.MetaData()
     model = sa.Table(
-        'tablename', meta,
-        sa.Column('id', sa.Integer, nullable=False),
-        sa.Column('title', sa.String()),
-        sa.PrimaryKeyConstraint('id', name='tablename_id_idx'),
+        "tablename",
+        meta,
+        sa.Column("id", sa.Integer, nullable=False),
+        sa.Column("title", sa.String()),
+        sa.PrimaryKeyConstraint("id", name="tablename_id_idx"),
     )
     form = generate_form(model)
     print(form)

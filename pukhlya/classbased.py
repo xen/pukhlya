@@ -28,12 +28,16 @@ class AdminListView(View):
                 "views": self.views,
             }
 
-            return render_template("admin/views/list.html", self.request, data)
+            return render_template(
+                "admin/views/list.html", self.request, data, app_key="pukhlya_jinja"
+            )
 
     async def post(self):
         data = await self.request.post()
 
-        return render_template("admin/views/list.html", self.request, data)
+        return render_template(
+            "admin/views/list.html", self.request, data, app_key="pukhlya_jinja"
+        )
 
 
 class AdminAddView(View):
@@ -46,7 +50,9 @@ class AdminAddView(View):
         form = self.add_form(meta={"csrf_context": session})
         result = {"form": form, "views": self.views}
 
-        return render_template("admin/views/add.html", self.request, result)
+        return render_template(
+            "admin/views/add.html", self.request, result, app_key="pukhlya_jinja"
+        )
 
     async def post(self):
         session = await get_session(self.request)
@@ -66,7 +72,9 @@ class AdminAddView(View):
                 await conn.execute(ins)
                 result["done"] = True
 
-        return render_template("admin/views/add.html", self.request, result)
+        return render_template(
+            "admin/views/add.html", self.request, result, app_key="pukhlya_jinja"
+        )
 
 
 def typify(col, val):
@@ -92,7 +100,9 @@ class AdminEditView(View):
             data = await self.request.post()
             form = self.edit_form(data, item, meta={"csrf_context": session})
             result = {"form": form, "views": self.views, "item_id": item_id}
-            return render_template("admin/views/edit.html", self.request, result)
+            return render_template(
+                "admin/views/edit.html", self.request, result, app_key="pukhlya_jinja"
+            )
 
     async def post(self):
         session = await get_session(self.request)
@@ -117,7 +127,9 @@ class AdminEditView(View):
                 )
                 result["done"] = True
 
-        return render_template("admin/views/edit.html", self.request, result)
+        return render_template(
+            "admin/views/edit.html", self.request, result, app_key="pukhlya_jinja"
+        )
 
 
 def admin_register(
@@ -222,4 +234,3 @@ async def admin_dashboard_view(request):
 
 def admin_dashboard(app, prefix="/admin/"):
     app.router.add_route("GET", prefix, admin_dashboard_view, name="admin.dashboard")
-

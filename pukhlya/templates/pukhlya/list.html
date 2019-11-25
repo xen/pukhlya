@@ -1,9 +1,9 @@
-{% extends "admin/base.html" %}
+{% extends "pukhlya/base.html" %}
 {% set page_title = 'Админка' %}
 
 {% block content %}
 <h1>Список</h1>
-{% include "admin/header.html" with context %}
+{% include "pukhlya/header.html" with context %}
 <a href="{{ url(views['add']) }}" class="btn btn-success">Добавить</a>
 <form method="post" action="{{ url(views['list']) }}">
 <table class="table table-striped">

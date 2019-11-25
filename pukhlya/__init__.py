@@ -9,7 +9,7 @@ import jinja2
 from wtforms.csrf.session import SessionCSRF
 from .classbased import admin_register, admin_dashboard
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = ("apply_admin", "register_admin")
 

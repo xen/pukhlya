@@ -29,14 +29,14 @@ class AdminListView(View):
             }
 
             return render_template(
-                "admin/views/list.html", self.request, data, app_key="pukhlya_jinja"
+                "pukhlya/list.html", self.request, data, app_key="pukhlya_jinja"
             )
 
     async def post(self):
         data = await self.request.post()
 
         return render_template(
-            "admin/views/list.html", self.request, data, app_key="pukhlya_jinja"
+            "pukhlya/list.html", self.request, data, app_key="pukhlya_jinja"
         )
 
 
@@ -51,7 +51,7 @@ class AdminAddView(View):
         result = {"form": form, "views": self.views}
 
         return render_template(
-            "admin/views/add.html", self.request, result, app_key="pukhlya_jinja"
+            "pukhlya/add.html", self.request, result, app_key="pukhlya_jinja"
         )
 
     async def post(self):
@@ -73,7 +73,7 @@ class AdminAddView(View):
                 result["done"] = True
 
         return render_template(
-            "admin/views/add.html", self.request, result, app_key="pukhlya_jinja"
+            "pukhlya/add.html", self.request, result, app_key="pukhlya_jinja"
         )
 
 
@@ -101,7 +101,7 @@ class AdminEditView(View):
             form = self.edit_form(data, item, meta={"csrf_context": session})
             result = {"form": form, "views": self.views, "item_id": item_id}
             return render_template(
-                "admin/views/edit.html", self.request, result, app_key="pukhlya_jinja"
+                "pukhlya/edit.html", self.request, result, app_key="pukhlya_jinja"
             )
 
     async def post(self):
@@ -128,7 +128,7 @@ class AdminEditView(View):
                 result["done"] = True
 
         return render_template(
-            "admin/views/edit.html", self.request, result, app_key="pukhlya_jinja"
+            "pukhlya/edit.html", self.request, result, app_key="pukhlya_jinja"
         )
 
 
@@ -138,7 +138,7 @@ def admin_register(
     prefix="/admin/",
     primary="id",
     list_columns=None,
-    serarch_columns=None,
+    search_columns=None,
     edit_columns=None,
     meta=None,
 ):
@@ -158,8 +158,8 @@ def admin_register(
 
     # list form
     search_form = None
-    if serarch_columns:
-        search_form = generate_form(model, serarch_columns)
+    if search_columns:
+        search_form = generate_form(model, search_columns)
 
     list_params = {
         "model": model,
@@ -219,7 +219,7 @@ def admin_register(
     app["admin"].append((views["list"], model))
 
 
-@template("admin/views/dashboard.html")
+@template("pukhlya/dashboard.html", app_key="pukhlya_jinja")
 async def admin_dashboard_view(request):
     # TODO: not implemented
     # session = await get_session(request)

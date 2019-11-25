@@ -8,7 +8,7 @@ from typing import List
 
 from setuptools import find_packages, setup, Command
 
-REGEXP = re.compile(r"^__version__\W*=\W*'([\d.abrc]+)'")
+REGEXP = re.compile(r'^__version__\W*=\W*"([\d.abrc]+)"')
 DESCRIPTION = "Pukhlya is AIOHTTP simple and ready-to-go admin for SQLAlchemy models"
 
 here = Path(__file__).parent
@@ -38,7 +38,7 @@ def read_version():
             if match is not None:
                 return match.group(1)
         else:
-            msg = f"Cannot find version in ${init_py}"
+            msg = f"Cannot find version in {init_py}"
             raise RuntimeError(msg)
 
 
@@ -70,7 +70,7 @@ class UploadCommand(Command):
         os.system("{0} setup.py sdist bdist_wheel --universal".format(sys.executable))
 
         self.status("Uploading the package to PyPI via Twine…")
-        os.system("twine upload -r mback dist/*")
+        os.system("twine upload dist/*")
 
         self.status("Pushing git tags…")
         os.system("git tag v{0}".format(read_version()))
@@ -95,7 +95,6 @@ setup(
     keywords=["admin", "aiohttp", "sqlalchemy", "wtforms"],
     classifiers=[
         "Framework :: AsyncIO",
-        "Framework :: AIOHTTP",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.6",

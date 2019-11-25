@@ -1,3 +1,4 @@
 -r dev-req.txt
 twine
 pytest
+wheel

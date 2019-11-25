@@ -3,12 +3,11 @@ PROJ=pukhlya
 all: setup
 
 venv/bin/activate:
-	python3 -m venv venv
+	@python3 -m venv venv
 
 setup: venv/bin/activate dev.txt
-	# createdb postline
-	. venv/bin/activate; pip install -U pip
-	. venv/bin/activate; pip install -Ur dev.txt
+	@. venv/bin/activate; pip install -U pip
+	@. venv/bin/activate; pip install -Ur dev.txt
 
 t: venv/bin/activate
 	. venv/bin/activate; python -V

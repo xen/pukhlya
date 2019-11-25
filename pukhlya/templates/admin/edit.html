@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% set page_title = 'Админка' %}
+
+{% block content %}
+<h1>Редактировать </h1>
+{% include "admin/header.html" with context %}
+
+{% if done %}
+<p>Запись сохранена</p>
+<a href="{{ url(views['list']) }}" class="btn btn-success">Вернуться</a>
+<a href="{{ url(views['add']) }}" class="btn btn-success">Добавить новую</a>
+{% else %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 message">
+      <form action="{{ url(views['edit'], id=item_id) }}" method="POST" role="form">
+        {% from 'admin/views/macros.html' import render_bootstrap_field with context%}
+        {% for field in form if field.id != 'csrf_token'%}
+        {{ render_bootstrap_field(field) }}
+        {% endfor %}
+        {% if 'csrf_token' in form %}
+        {{ form.csrf_token }}
+        {% endif %}
+        <button type="submit" class="btn btn-success">Сохранить изменения</button>
+        <a href="{{ url(views['list']) }}" class="btn btn-success">Вернуться</a>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

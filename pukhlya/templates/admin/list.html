@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+{% set page_title = 'Админка' %}
+
+{% block content %}
+<h1>Список</h1>
+{% include "admin/header.html" with context %}
+<a href="{{ url(views['add']) }}" class="btn btn-success">Добавить</a>
+<form method="post" action="{{ url(views['list']) }}">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><input type="checkbox" id="checkAll"></th>
+    <th>#</th>
+    {% for item in list_columns %}
+    <th>{{ item }}</th>
+    {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for row in rows %}
+  <tr>
+    <th><input type="checkbox" value="{{ row['id'] }}"></th>
+    <th scope="row">
+      <a href="{{ url(views['edit'], id=row['id']) }}">
+        {{ loop.index }}
+      </a>
+    </th>
+    {% for col in list_columns %}
+    <td> {{ row[col] }}</td>
+    {% endfor %}
+  </tr>
+  {% else %}
+    <td colspan="{{ len(list_columns) + 2 }}">
+      <p></p>
+      <p align="center">Список пуст</p>
+      <p></p>
+    </td>
+  {% endfor %}
+  </tbody>
+</table>
+<button type="submit" class="btn btn-default">Удалить выбранные</button>
+</form>
+<script>
+$("#checkAll").click(function(){
+    $('input:checkbox').not(this).prop('checked', this.checked);
+});
+</script>
+{% endblock %}

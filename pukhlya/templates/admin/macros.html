@@ -1,0 +1,65 @@
+{% macro render_bootstrap_field(field) %}
+<div class="form-group {% if field.errors %} has-error {% endif %}">
+  <label class="control-label" for="{{field.id}}">{{ field.label }}</label>
+
+  <div class="">
+    {{ field(class='form-control')|safe }}
+    {% if field.errors %}
+      {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span><br>
+      {% endfor %}
+    {% endif %}
+    {% if field.description %}
+      <span class="help-block">{{field.description}}</span>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro breadcrumb(items) %}
+{% if items %}
+<ol class="breadcrumb">
+  {% for item in items -%}
+  <li {% if loop.last %}class="active"{% endif %}>
+    {% if not loop.last %}<a href="{{ url(item['url']) }}">{% endif %}
+      {{ item['title'] }}
+    {% if not loop.last %}</a>{% endif %}
+  </li>
+  {% endfor -%}
+</ol>
+{% endif %}
+{% endmacro %}
+
+{% macro pager(items) %}
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endmacro %}
+
+{% macro message() %}
+{% if request.get('messages') %}
+{% for msg in request.get('messages') %}
+<div class="alert alert-{{ msg['type'] }} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{ msg['text']|safe }}
+</div>
+{% endfor %}
+{% endif %}
+{% endmacro %}
+

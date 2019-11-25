@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set page_title = 'Dashboard' %}
+
+{% block content %}
+<h1>Администрирование сайта</h1>
+
+<div class="row">
+  {% for item in elements %}
+
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ item['name'] }}</h3>
+      </div>
+      <a href="{{ url(item['view']) }}">
+          <div class="panel-footer">
+              <span class="pull-left">Записей {{ item['count'] }}</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+          </div>
+      </a>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% set page_title = 'Админка' %}
+
+{% block content %}
+<h1>Добавить </h1>
+{% include "admin/header.html" with context %}
+
+{% if done %}
+<p>Запись добавлена</p>
+<a href="{{ url(views['list']) }}" class="btn btn-success">Вернуться</a>
+<a href="{{ url(view['add']) }}" class="btn btn-success">Добавить еще</a>
+{% else %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 message">
+      <form action="{{ url(views['add']) }}" method="POST" role="form">
+        {% from 'macros.html' import render_bootstrap_field with context%}
+        {% for field in form if field.id != 'csrf_token'%}
+        {{ render_bootstrap_field(field) }}
+        {% endfor %}
+        {% if 'csrf_token' in form %}
+        {{ form.csrf_token }}
+        {% endif %}
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{{ url(views['list']) }}" class="btn btn-link">Вернуться</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

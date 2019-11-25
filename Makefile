@@ -1,3 +1,4 @@
+.PHONY: release t
 PROJ=pukhlya
 
 all: setup
@@ -20,3 +21,6 @@ freeze:
 	. venvdeploy/bin/activate; pip install -r dev-req.txt
 	. venvdeploy/bin/activate; pip freeze > requirements.txt 
 	rm -rf venvdeploy
+
+release: venv/bin/activate dev.txt
+	@. venv/bin/activate; python setup.py upload

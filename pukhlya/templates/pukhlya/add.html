@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-md-8 message">
       <form action="{{ url(views['add']) }}" method="POST" role="form">
-        {% from 'macros.html' import render_bootstrap_field with context%}
+        {% from 'pukhlya/macros.html' import render_bootstrap_field with context%}
         {% for field in form if field.id != 'csrf_token'%}
         {{ render_bootstrap_field(field) }}
         {% endfor %}

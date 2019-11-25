@@ -17,17 +17,19 @@
 {% endmacro %}
 
 {% macro breadcrumb(items) %}
-{% if items %}
-<ol class="breadcrumb">
-  {% for item in items -%}
-  <li {% if loop.last %}class="active"{% endif %}>
-    {% if not loop.last %}<a href="{{ url(item['url']) }}">{% endif %}
-      {{ item['title'] }}
-    {% if not loop.last %}</a>{% endif %}
-  </li>
-  {% endfor -%}
-</ol>
-{% endif %}
+  <nav aria-label="breadcrumb">
+  {% if items %}
+  <ol class="breadcrumb">
+    {% for item in items -%}
+    <li class="breadcrumb-item" {% if loop.last %}class="active" aria-current="page"{% endif %}>
+      {% if not loop.last %}<a href="{{ url(item['url']) }}">{% endif %}
+        {{ item['title'] }}
+      {% if not loop.last %}</a>{% endif %}
+    </li>
+    {% endfor -%}
+  </ol>
+  {% endif %}
+  </nav>
 {% endmacro %}
 
 {% macro pager(items) %}

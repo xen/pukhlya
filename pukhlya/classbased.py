@@ -97,8 +97,8 @@ class AdminEditView(View):
                     self.model.c.id == typify(self.model.c.id, item_id)
                 )
             )
-            data = await self.request.post()
-            form = self.edit_form(data, item, meta={"csrf_context": session})
+            form = self.edit_form(data=item, meta={"csrf_context": session})
+
             result = {"form": form, "views": self.views, "item_id": item_id}
             return render_template(
                 "pukhlya/edit.html", self.request, result, app_key="pukhlya_jinja"
@@ -108,7 +108,7 @@ class AdminEditView(View):
         session = await get_session(self.request)
         item_id = self.request.match_info["id"]
         data = await self.request.post()
-        form = self.edit_form(data, meta={"csrf_context": session})
+        form = self.edit_form(formdata=data, meta={"csrf_context": session})
 
         result = {"form": form, "views": self.views, "item_id": item_id}
 
@@ -119,7 +119,7 @@ class AdminEditView(View):
                     for key in form._fields.keys()
                     if not key in ["csrf_token",]
                 }
-                query = await conn.fetchrow(
+                await conn.fetchrow(
                     self.model.update()
                     .returning(self.model.c.id)
                     .where(self.model.c.id == item_id)

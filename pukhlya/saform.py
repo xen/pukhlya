@@ -103,7 +103,7 @@ def generate_form(model, only=None, meta=None):
                 continue
         if not isinstance(column, Column):
             continue
-        fields[name] = TYPE_MAP[column.type.__class__](
+        fields[name] = TYPE_MAP.get(column.type.__class__, StringField)(
             name, render_kw={"placeholder": name}
         )
     form = type("Add{}Form".format(model.name.capitalize()), (Form,), fields)

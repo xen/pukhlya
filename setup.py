@@ -90,7 +90,7 @@ setup(
     platforms=["POSIX"],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=read_requirements("requirements.txt"),
+    install_requires=read_requirements("dev-req.txt"),
     zip_safe=False,
     keywords=["admin", "aiohttp", "sqlalchemy", "wtforms"],
     classifiers=[
